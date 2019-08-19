@@ -8,7 +8,7 @@ APP = {
 # 数据库
 # SQLALCHEMY 是否打印日志
 SQLALCHEMY_ECHO = False
-# SQLALCHEMY_DATABASE_URI = 'mysql://root:123456@localhost:3306/geekbar?charset=utf8mb4'
+SQLALCHEMY_DATABASE_URI = 'mysql://root:1qazxsW@@localhost:3306/geekbar?charset=utf8mb4'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ENCODING = "utf8mb4"
 
@@ -17,8 +17,8 @@ SERVER_PORT = 8999
 # DEBUG = False
 
 MINA_APP = {
-    'appid': 'xxxxx',
-    'appkey': 'xxxxx',
+    'appid': 'wxb25420c61a92cb94',
+    'appkey': '2f85688921528bdd9c5a3d8bb64f7571',
 }
 
 # 有可能你使用浏览器看到的一串字符串不是那么容易看懂的，这是因为python底层使用unicode编码。
