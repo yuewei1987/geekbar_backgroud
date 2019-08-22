@@ -17,5 +17,6 @@ class User(db.Model):
     login_pwd = db.Column(db.String(32), nullable=False, server_default=db.FetchedValue())
     login_salt = db.Column(db.String(32), nullable=False, server_default=db.FetchedValue())
     status = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
+    type = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
     updated_time = db.Column(db.DateTime, nullable=False, server_default=db.FetchedValue())
     created_time = db.Column(db.DateTime, nullable=False, server_default=db.FetchedValue())

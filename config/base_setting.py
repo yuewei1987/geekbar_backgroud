@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 APP = {
     # 域名
-    'domain': 'https://www.umame.cn'
+    'domain': 'https://www.umame.cn/'
 
 }
 
 # 数据库
 # SQLALCHEMY 是否打印日志
 SQLALCHEMY_ECHO = False
-SQLALCHEMY_DATABASE_URI = 'mysql://root:1qazxsW@@localhost:3306/geekbar?charset=utf8mb4'
+SQLALCHEMY_DATABASE_URI = 'mysql://root:1qazxsW@@47.108.78.123:3306/geekbar_dev?charset=utf8mb4'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ENCODING = "utf8mb4"
 

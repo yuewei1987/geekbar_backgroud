@@ -30,10 +30,10 @@ def login():
         resp['msg'] = "请输入正确的邮箱密码~~"
         return jsonify(resp)
 
-    user_info = User.query.filter_by(login_name=login_name).first()
+    user_info = User.query.filter_by(login_name=login_name).filter_by(type=0).first()
     if not user_info:
         resp['code'] = -1
-        resp['msg'] = "请输入正确的登录用户名和密码-1~~"
+        resp['msg'] = "您的账号信息不存在~~"
         return jsonify(resp)
 
     if user_info.login_pwd != UserService.genePwd(login_pwd, user_info.login_salt):
