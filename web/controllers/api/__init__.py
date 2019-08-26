@@ -13,6 +13,8 @@ from web.controllers.api.Member import *
 from web.controllers.api.Home import *
 from web.controllers.api.List import *
 from web.controllers.api.Goods import *
+# add by yuewei 20190826
+from web.controllers.api.Invoice import *
 
 @route_api.route("/")
 def index():

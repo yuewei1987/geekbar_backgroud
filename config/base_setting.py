@@ -43,7 +43,8 @@ IGNORE_CHECK_LOGIN_URLS = [
 
 ##不需要验证的
 API_IGNORE_URLS = [
-    "^/api/member/login"
+    "^/api/member/login",
+    "^/api/invoice"
 ]
 
 # 分页

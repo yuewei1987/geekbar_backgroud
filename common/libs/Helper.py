@@ -149,6 +149,26 @@ def getGoodsDetail(goods_info):
     }
 
     return data
+'''
+拼接数据库模型的一条信息
+'''
+def getInvoiceDetail(invoice):
+    if not invoice:
+        return {}
+    data = {
+        "id": invoice.invoice_id,
+        "address": invoice.address,
+        "phone":invoice.phone,
+        "notes": invoice.notes,
+        "del_flag": invoice.del_flag,
+        "amount": float(invoice.amount),
+        "create_time": invoice.create_time,
+        "update_time": invoice.update_time,
+        "status": invoice.status,
+    }
+
+    return data
+
 
 import pandas as pd
 import pandas.io.formats.excel

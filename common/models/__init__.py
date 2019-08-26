@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-# flask-sqlacodegen 'mysql://root:@127.0.0.1/food_db' --outfile "common/models/model.py"  --flask
+
+
+#flask-sqlacodegen "mysql://root:1qazxsW@@47.108.78.123:3306/geekbar_dev?charset=utf8mb4"
 #
 
 
