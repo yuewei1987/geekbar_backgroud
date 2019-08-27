@@ -46,7 +46,10 @@ API_IGNORE_URLS = [
     "^/api/member/login",
     "^/api/invoice"
 ]
-
+STATUS_MAPPING = {
+    "0":"无效",
+    "1":"有效"
+}
 # 分页
 PAGE_SIZE = 10
 PAGE_DISPLAY = 10

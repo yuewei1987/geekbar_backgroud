@@ -46,4 +46,5 @@ def get_order():
     resp['list'] = data
     resp['pages'] = pages
     resp['search_con'] = req
+    print(resp)
     return ops_render("invoices/index.html", resp)

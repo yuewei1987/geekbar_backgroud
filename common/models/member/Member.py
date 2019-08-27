@@ -15,6 +15,7 @@ class Member(db.Model):
     salt = db.Column(db.String(32), nullable=False, server_default=db.FetchedValue())
     reg_ip = db.Column(db.String(100), nullable=False, server_default=db.FetchedValue())
     status = db.Column(db.Integer, nullable=False, server_default=db.FetchedValue())
+    group_name = db.Column(db.String(255), nullable=False, server_default=db.FetchedValue())
     updated_time = db.Column(db.DateTime, nullable=False, server_default=db.FetchedValue())
     created_time = db.Column(db.DateTime, nullable=False, server_default=db.FetchedValue())
 

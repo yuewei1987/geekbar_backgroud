@@ -3,6 +3,7 @@
 统一拦截处理和统一错误处理
 '''
 from web.controllers.invoice.Invoice import route_invoices
+from web.controllers.member.Member import route_member
 from web.interceptors.AuthInterceptor import *
 from web.interceptors.ApiAuthInterceptor import *
 
@@ -24,3 +25,4 @@ app.register_blueprint(route_goods, url_prefix="/goods")
 app.register_blueprint(route_invoices, url_prefix="/invoices")
 app.register_blueprint(route_api, url_prefix="/api")
 app.register_blueprint(route_upload, url_prefix="/upload")
+app.register_blueprint(route_member, url_prefix="/member")

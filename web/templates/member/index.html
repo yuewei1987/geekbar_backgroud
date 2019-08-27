@@ -34,6 +34,7 @@
                 <th>姓名</th>
                 <th>性别</th>
                 <th>状态</th>
+                <th>组名</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -45,6 +46,7 @@
                 <td>{{ item.nickname }}</td>
                 <td>{{ item.sex_desc }}</td>
                 <td>{{ item.status_desc }}</td>
+                <td>{{ item.group_name }}</td>
                 <td>
                     <a href="{{ buildUrl('/member/info') }}?id={{  item.id }}">
                         <i class="fa fa-eye fa-lg"></i>
