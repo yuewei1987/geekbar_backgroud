@@ -2,6 +2,7 @@
 '''
 统一拦截处理和统一错误处理
 '''
+from web.controllers.invoice.Invoice import route_invoices
 from web.interceptors.AuthInterceptor import *
 from web.interceptors.ApiAuthInterceptor import *
 
@@ -20,5 +21,6 @@ app.register_blueprint(route_user, url_prefix="/user")
 app.register_blueprint(route_static, url_prefix="/static")
 app.register_blueprint(route_account, url_prefix="/account")
 app.register_blueprint(route_goods, url_prefix="/goods")
+app.register_blueprint(route_invoices, url_prefix="/invoices")
 app.register_blueprint(route_api, url_prefix="/api")
 app.register_blueprint(route_upload, url_prefix="/upload")
