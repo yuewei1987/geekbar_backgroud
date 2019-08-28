@@ -15,7 +15,6 @@ class UploadService():
         # 获取文件名 【secure_filename() 获取一个安全的文件名】
         filename = secure_filename(file.filename)
         # 获取文件的后缀
-        print(filename)
         ext = filename.rsplit(".", 1)[1]
         # 判断 这个 后缀 是否在 规定的后缀里面
         if ext not in config_upload['ext']:
@@ -37,7 +36,8 @@ class UploadService():
             # S_IRWXU 700权限, S_IRGRP 040权限, S_IRWXO 007权限
             os.chmod(save_dir, stat.S_IRWXU | stat.S_IRGRP | stat.S_IRWXO)
         # 生成文件名 uuid 来做，再加上后缀
-        file_name = str(uuid.uuid4()).replace("-", "") + "." + ext
+        file_uuid_name = str(uuid.uuid4()).replace("-", "")
+        file_name = file_uuid_name + "." + ext
         # 存储文件 [路径+文件名]就可以了
         file.save("{0}/{1}".format(save_dir, file_name))
 
@@ -48,6 +48,7 @@ class UploadService():
         db.session.commit()
 
         resp['data'] = {
-            'file_key': model_image.file_key
+            'file_key': model_image.file_key,
+            'file_uuid_name': file_uuid_name
         }
         return resp

@@ -165,6 +165,8 @@ def getInvoiceDetail(invoice):
         "create_time": invoice.create_time,
         "update_time": invoice.update_time,
         "status": invoice.status,
+        "file_path": invoice.file_path,
+        "group_name": invoice.group_name
     }
 
     return data

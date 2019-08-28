@@ -56,7 +56,7 @@ PAGE_DISPLAY = 10
 
 # 上传相关参数
 UPLOAD = {
-    'ext': ['jpg', 'gif', 'bmp', 'jpeg', 'png', 'JPG', 'JPEG'],  # 扩展
+    'ext': ['jpg', 'gif', 'bmp', 'jpeg', 'png', 'JPG', 'JPEG','pdf','PDF'],  # 扩展
     'prefix_path': '/web/static/upload/',  # 上传目录
     'prefix_url': '/static/upload/'  # url地址
 }

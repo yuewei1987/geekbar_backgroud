@@ -14,6 +14,8 @@ class Invoice(db.Model):
     phone = db.Column(db.String(20), comment='电话')
     amount = db.Column(db.DECIMAL(12, 2), nullable=False, comment='金额')
     notes = db.Column(db.String(200), comment='备注信息')
+    group_name = db.Column(db.String(255), comment='组名称')
+    file_path = db.Column(db.String(255), comment='文件路径')
     status = db.Column(TINYINT(4), default="0", comment='订单状态( 0已创建Sent，1待发送Pending，2-已经扫码,完成Receivd)')
     create_time = db.Column(db.TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP"), comment='创建时间')
     update_time = db.Column(db.TIMESTAMP, nullable=False, server_default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"), comment='更新时间')

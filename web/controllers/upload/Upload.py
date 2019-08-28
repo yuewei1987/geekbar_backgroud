@@ -5,9 +5,13 @@
 @auther = FengQi
 @create_time = 2019-07-21 15:01
 """
+import datetime
+
 from flask import Blueprint,request,jsonify
 from application import  app
 import re,json
+
+from common.libs.QrcodeService import  QrcodeService
 from common.libs.UploadService import UploadService
 from common.libs.UrlManager import UrlManager
 from common.models.Image import Image
@@ -48,11 +52,33 @@ def uploadPic():
 	callback_target = 'window.parent.upload'
 	if upfile is None:
 		return "<script type='text/javascript'>{0}.error('{1}')</script>".format( callback_target,"上传失败" )
-
 	ret = UploadService.uploadByFile(upfile)
 	if ret['code'] != 200:
 		return "<script type='text/javascript'>{0}.error('{1}')</script>".format(callback_target, "上传失败：" + ret['msg'])
 	return "<script type='text/javascript'>{0}.success('{1}')</script>".format(callback_target,ret['data']['file_key'] )
+
+@route_upload.route("/pdf",methods = [ "GET","POST" ])
+def uploadPdf():
+	file_target = request.files
+	upfile = file_target['pdf'] if 'pdf' in file_target else None
+
+	callback_target = 'window.parent.upload'
+	if upfile is None:
+		return "<script type='text/javascript'>{0}.error('{1}')</script>".format( callback_target,"上传失败" )
+	ret = UploadService.uploadByFile(upfile)
+	if ret['code'] != 200:
+		return "<script type='text/javascript'>{0}.error('{1}')</script>".format(callback_target, "上传失败：" + ret['msg'])
+	else :
+		#生成的二维码默认png格式
+		ext="png";
+		file_uuid_name = ret['data']['file_uuid_name']
+		file_key = ret['data']['file_key']
+		file_name = file_uuid_name + "." + ext
+		#UrlManager.buildImageUrl(file_key) PDF的地址
+		qret = QrcodeService.generateqrcode(UrlManager.buildImageUrl(file_key),file_name)
+		if ret['code'] != 200:
+			return "<script type='text/javascript'>{0}.error('{1}')</script>".format(callback_target,"二维码生成失败：" + ret['msg'])
+	return "<script type='text/javascript'>{0}.success('{1}')</script>".format(callback_target,datetime.datetime.now().strftime("%Y%m%d")+ "/" +file_name )
 
 def uploadImage():
 	resp = { 'state':'SUCCESS','url':'','title':'','original':'' }
