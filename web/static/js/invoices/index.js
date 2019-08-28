@@ -7,7 +7,7 @@ var upload = {
             return;
         }
         var html = '<img width="100"  height="100" src="' + common_ops.buildPicUrl(file_key) + '" onclick="tf.click();"/>' +
-            '<input name="filepath" value="'+file_key+'"/>';
+            '<input name="filepath" style="display: none" value="'+file_key+'"/>';
         $("#upd_img").html(html);
 
     }
@@ -78,6 +78,12 @@ var invoice_index_ops = {
             }
             e.stopPropagation();
         });
+        $(".left-body .btn-success").click( function(e){
+          if(!e.isPropagationStopped()){//确定stopPropagation是否被调用过
+            that.ops( "deliver",$(this).attr("data") )
+          }
+           e.stopPropagation();
+        });
         $(".remove").click( function(){
             that.ops( "remove",$(this).attr("data") )
         });
@@ -109,7 +115,7 @@ var invoice_index_ops = {
         var callback = {
             'ok':function(){
                 $.ajax({
-                    url:common_ops.buildUrl("/goods/ops"),
+                    url:common_ops.buildUrl("/invoices/ops"),
                     type:'POST',
                     data:{
                         act:act,
@@ -129,7 +135,7 @@ var invoice_index_ops = {
             },
             'cancel':null
         };
-        common_ops.confirm( ( act=="remove" )?"确定删除？":"确定恢复？",callback );
+        common_ops.confirm( "确定操作？",callback );
     }
 };
 

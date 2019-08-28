@@ -1,0 +1,325 @@
+ .table-tr {
+            background: #FFFFFF;
+            border-radius: 2px;
+        }
+        .upload_pic_wrap {
+          position: relative;
+          float: left;
+        }
+        /* PAGINATIN */
+        .pagination > .active > a,
+        .pagination > .active > span,
+        .pagination > .active > a:hover,
+        .pagination > .active > span:hover,
+        .pagination > .active > a:focus,
+        .pagination > .active > span:focus {
+            background-color: #f4f4f4;
+            border-color: #DDDDDD;
+            color: inherit;
+            cursor: default;
+            z-index: 2;
+        }
+
+        .pagination > li > a,
+        .pagination > li > span {
+            background-color: #FFFFFF;
+            border: 1px solid #DDDDDD;
+            color: inherit;
+            float: left;
+            line-height: 1.42857;
+            margin-left: -1px;
+            padding: 4px 10px;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .pull-right {
+            float: right !important;
+        }
+
+       .m-width-m{
+	background-color: #F4F5F8;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+.m-width{
+    padding: 0;
+    margin: auto;
+    max-width: 1500px;
+    justify-content: space-between;
+}
+.cointainer{
+    margin: 0px 40px;
+    padding: 0;
+}
+@media only screen and (min-width: 600px) {
+    .cointainer{
+    margin: 0px 80px;
+    }
+}
+
+/* =============== Navbar =================== */
+.nav-ul{
+    margin-bottom: 40px;
+    padding: 0;
+    background: #fff;
+    overflow: hidden;
+}
+.nav-ul .ph1{
+    float:left;
+    list-style-type: none;
+    padding-left: 30px;
+}
+.nav-ul .ph2{
+    float: right;;
+    list-style-type: none;
+    padding-right: 40px;
+}
+.nav-ul .ph3{
+    float: right;;
+    list-style-type: none;
+    padding-right: 25px;
+}
+.nav-ul li a{
+    text-decoration:none;
+    color: #fff;
+    padding: 17px 0px;
+    display: inline-block;
+}
+
+@media only screen and (min-width: 600px) {
+    .nav-ul{
+        margin-bottom: 40px;
+        padding: 0;
+        background: #fff;
+        overflow: hidden;
+    }
+    .nav-ul .ph1{
+        float:left;
+        list-style-type: none;
+        padding-left: 50px;
+    }
+    .nav-ul .ph2{
+        float: right;;
+        list-style-type: none;
+        padding-right: 50px;
+    }
+    .nav-ul .ph3{
+        float: right;;
+        list-style-type: none;
+    }
+    .nav-ul li a{
+        text-decoration:none;
+        color: #fff;
+        padding: 17px 28px;
+        display: inline-block;
+    }
+}
+/* Font */
+.dash-o{
+    font: 30px Lexend Deca;
+    font-weight: 700;
+    color: #707070;
+    padding: 0;
+}
+.a1{
+    color: #707070;
+    font-family: Lexend Deca;
+    font-size: 30px;
+    font-weight: 500;
+    padding: 0;
+}
+.a2{
+    color: #707070;
+    font-family: Lexend Deca;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 0;
+}
+.a3{
+    color: #191919;
+    font-family: Lexend Deca;
+    font-size: 17px;
+    font-weight: 500;
+    padding: 0;
+}
+/* ========== Dashboard Overview ============== */
+.line-chart{
+    margin-bottom: 40px;
+}
+/* -------------Chart1------------- */
+.line-chart1{
+    background-color: #FFFFFF;
+    /* height: 230px; */
+    margin-bottom: 30px;
+    padding: 0;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
+}
+}
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.charts{
+    margin-top: -20px;
+}
+.chart-h{
+    display: inline-block;
+    margin-left: 30px;
+    margin-top: 30px;
+}
+.canvas-c{
+    padding: 0;
+    margin: 0;
+}
+/* -------------Chart2------------- */
+.line-chart2{
+    padding: 0;
+}
+.up-small{
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (min-width: 600px) {
+    .line-chart1{
+        margin-bottom: 0;
+    }
+    .up-small{
+        background-color: #FFFFFF;
+        margin-left: 30px;
+    }
+}
+
+/* ========== Down Overview ============== */
+.under-line{
+    padding: 0;
+    margin-bottom: 40px;
+}
+
+.left-div{
+    padding:0;
+    margin-bottom: 40px;
+}
+.right-div{
+    padding: 0;
+}
+.down-small{
+    margin-left: 0px;
+    width: 100%;
+    height: 100%;
+}
+@media only screen and (min-width: 600px) {
+    .left-div{
+        margin-bottom: 0px;
+    }
+    .down-small{
+        margin-left: 30px;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+
+.head{
+    margin-bottom: 0px;
+}
+.left-head-1{
+    display: inline-block;
+}
+.left-head-2{
+    float: none;
+}
+@media only screen and (min-width: 600px) {
+    .left-head-2{
+    float: right;
+    }
+}
+.inv{
+    margin-bottom: 30px;
+}
+.invoice-form{
+    height: 200px;
+    background: #FFFFFF;
+    border: 1px solid #D4C1FF;
+    border-radius: 3px;
+    margin-bottom: 25px;
+}
+.in-pic{
+    margin: auto;
+    width: 100px;
+    margin-top: 50px;
+}
+.amount{
+    height: 70px;
+    background: #FFFFFF;
+    margin-bottom: 25px;
+    border: 1px solid #D4C1FF;
+    border-radius: 3px;
+}
+  .amount input {
+            font-size: 20px;
+            border: 0px solid #D4C1FF;
+            width: 100%;
+            height: 100%;
+            font-family: Lexend Deca;
+            font-weight: 400;
+            color: #707070;
+            padding: 20px 40px;
+}
+
+.note{
+    height: 150px;
+    background: #FFFFFF;
+    border: 1px solid #D4C1FF;
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+.note textarea {
+            border: 0px solid #D4C1FF;
+            width: 100%;
+            height: 100%;
+            font-size: 20px;
+            font-family: Lexend Deca;
+            font-weight: 400;
+            color: #707070;
+            padding: 20px 40px;
+        }
+
+table{
+    width: 100%;
+}
+td, th {
+    text-align: center;
+}
+th, td {
+    padding: 10px 0px;
+}
+#id{
+    background: #FFFFFF;
+    border-radius: 2px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+}
+.btn{
+    width: 100px;
+}
+.tr-p{
+    padding: 0;
+    margin-bottom: 15px;
+}
+.tb-h{
+    font: 17px Lexend Deca;
+    font-weight: 400;
+    color: #707070;
+}
+.over{
+    margin-left: 0;
+    padding-left: 0;
+}

@@ -1,325 +1,17 @@
 {% extends "common/layout_main.html" %}
+{%block css %}
+<link href="https://fonts.googleapis.com/css?family=Lexend+Deca|Tajawal:400,500,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="{{ buildStaticUrl('/css/invoice.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
 
     {% block js %}
     <script src="{{ buildStaticUrl('/js/invoices/index.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     {% endblock %}
-    <style>
-        .table-tr {
-            background: #FFFFFF;
-            border-radius: 2px;
-        }
-        .upload_pic_wrap {
-          position: relative;
-          float: left;
-        }
-        /* PAGINATIN */
-        .pagination > .active > a,
-        .pagination > .active > span,
-        .pagination > .active > a:hover,
-        .pagination > .active > span:hover,
-        .pagination > .active > a:focus,
-        .pagination > .active > span:focus {
-            background-color: #f4f4f4;
-            border-color: #DDDDDD;
-            color: inherit;
-            cursor: default;
-            z-index: 2;
-        }
-
-        .pagination > li > a,
-        .pagination > li > span {
-            background-color: #FFFFFF;
-            border: 1px solid #DDDDDD;
-            color: inherit;
-            float: left;
-            line-height: 1.42857;
-            margin-left: -1px;
-            padding: 4px 10px;
-            position: relative;
-            text-decoration: none;
-        }
-
-        .pull-right {
-            float: right !important;
-        }
-
-        .m-width-m {
-            background-color: #F4F5F8;
-            width: 100%;
-            padding: 0;
-            margin: 0;
-        }
-
-        .m-width {
-            padding: 0;
-            margin: auto;
-            max-width: 1500px;
-            justify-content: space-between;
-        }
-
-        .cointainer {
-            margin: 0px 40px;
-            padding: 0;
-        }
-
-        @media only screen and (min-width: 600px) {
-            .cointainer {
-                margin: 0px 80px;
-            }
-        }
-
-        /* =============== Navbar =================== */
-        .nav-ul {
-            margin-bottom: 40px;
-            padding: 0;
-            background: #fff;
-            overflow: hidden;
-        }
-
-        .nav-ul .ph1 {
-            float: left;
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .nav-ul .ph2 {
-            float: right;;
-            list-style-type: none;
-            padding-right: 30px;
-        }
-
-        .nav-ul .ph3 {
-            float: right;;
-            list-style-type: none;
-            padding-right: 25px;
-        }
-
-        .nav-ul li a {
-            text-decoration: none;
-            color: #fff;
-            padding: 17px 0px;
-            display: inline-block;
-        }
-
-        @media only screen and (min-width: 600px) {
-            .nav-ul {
-                margin-bottom: 40px;
-                padding: 0;
-                background: #fff;
-                overflow: hidden;
-            }
-
-            .nav-ul .ph1 {
-                float: left;
-                list-style-type: none;
-                padding-left: 50px;
-            }
-
-            .nav-ul .ph2 {
-                float: right;;
-                list-style-type: none;
-                padding-right: 50px;
-            }
-
-            .nav-ul .ph3 {
-                float: right;;
-                list-style-type: none;
-            }
-
-            .nav-ul li a {
-                text-decoration: none;
-                color: #fff;
-                padding: 17px 28px;
-                display: inline-block;
-            }
-        }
-
-        /* Font */
-        .dash-o {
-            font: 30px Lexend Deca;
-            font-weight: 700;
-            color: #707070;
-        }
-
-        /* ========== Dashboard Overview ============== */
-        .line-chart {
-            margin-bottom: 40px;
-        }
-
-        .line-chart1 {
-            background-color: #FFFFFF;
-            height: 230px;
-            margin-bottom: 20px;
-        }
-
-        .line-chart2 {
-            padding: 0;
-            height: 230px;
-        }
-
-        .up-small {
-            background-color: #FFFFFF;
-            width: 100%;
-            height: 100%;
-        }
-
-        @media only screen and (min-width: 600px) {
-            .line-chart1 {
-                margin-bottom: 0;
-            }
-
-            .up-small {
-                background-color: #FFFFFF;
-                margin-left: 30px;
-                width: 100%;
-                height: 100%;
-            }
-        }
-
-        /* ========== Down Overview ============== */
-        .under-line {
-            padding: 0;
-            margin-bottom: 40px;
-        }
-
-        .left-div {
-            padding: 0;
-            margin-bottom: 40px;
-        }
-
-        .right-div {
-            padding: 0;
-        }
-
-        .down-small {
-            margin-left: 0px;
-            width: 100%;
-            height: 100%;
-        }
-
-        @media only screen and (min-width: 600px) {
-            .left-div {
-                margin-bottom: 0px;
-            }
-
-            .down-small {
-                margin-left: 30px;
-                width: 100%;
-                height: 100%;
-            }
-        }
-
-
-        .head {
-            margin-bottom: 0px;
-        }
-
-        .left-head-1 {
-            display: inline-block;
-        }
-
-        .left-head-2 {
-            width: 250px;
-            display: inline-block;
-            float: right;
-        }
-
-        .inv {
-            margin-bottom: 30px;
-        }
-        .invoice-form {
-            height: 200px;
-            background: #FFFFFF;
-            border: 1px solid #D4C1FF;
-            border-radius: 3px;
-            margin-bottom: 25px;
-        }
-
-        .in-pic {
-            margin: auto;
-            width: 100px;
-            margin-top: 50px;
-        }
-
-        .amount {
-            height: 70px;
-            background: #FFFFFF;
-            margin-bottom: 25px;
-            border: 1px solid #D4C1FF;
-            border-radius: 3px;
-        }
-
-        .amount input {
-            font-size: 20px;
-            border: 0px solid #D4C1FF;
-            width: 100%;
-            height: 100%;
-            font-family: Lexend Deca;
-            font-weight: 400;
-            color: #707070;
-            padding: 20px 40px;
-        }
-
-        .note {
-            height: 150px;
-            background: #FFFFFF;
-            border: 1px solid #D4C1FF;
-            border-radius: 3px;
-            margin-bottom: 20px;
-        }
-
-        .note textarea {
-            border: 0px solid #D4C1FF;
-            width: 100%;
-            height: 100%;
-            font-size: 20px;
-            font-family: Lexend Deca;
-            font-weight: 400;
-            color: #707070;
-            padding: 20px 40px;
-        }
-
-        table {
-            width: 100%;
-        }
-
-        td, th {
-            text-align: center;
-        }
-
-        th, td {
-            padding: 10px 0px;
-        }
-
-        #id {
-            background: #FFFFFF;
-            border-radius: 2px;
-        }
-
-        .btn {
-            width: 100px;
-        }
-
-        .tr-p {
-            padding: 0;
-            margin-bottom: 15px;
-        }
-
-        .tb-h {
-            font: 17px Lexend Deca;
-            font-weight: 400;
-            color: #707070;
-        }
-
-        .over {
-            margin-left: 0;
-            padding-left: 0;
-        }
-
-    </style>
-</head>
-<body>
 <!--<div class="nav-ul">-->
 <!--    <li class="ph1"><a href="#"><img src="{{ buildStaticUrl('/img/logo.png') }}" alt=""></a></li>-->
 <!--    <li class="ph2"><a href="#"><img src="{{ buildStaticUrl('/img/nav-photo.png') }}" alt=""></a></li>-->
@@ -329,16 +21,33 @@
     <div class="m-width">
         <div class="cointainer">
             <div class="over">
-                <H2 class="dash-o ">收入仪表盘</H2>
+                <H2 class="dash-o ">收支统计</H2>
             </div>
             <div class="row line-chart">
                 <div class="col-12 col-sm-8 line-chart1">
-
+                    <div class="chart-h">
+                        <h1 class="a1">$65005</h1>
+                        <h1 class="a2">REVENUE</h1>
+                        <h1 class="a3">08/24/2019</h1>
+                    </div>
+                    <div class="charts">
+                        <canvas id="myChart" class="canvas-c" width="600" height="120%"></canvas>
+                    </div>
                 </div>
                 <div class="col-12 col-sm-4 line-chart2">
-                    <div class="up-small"></div>
+                    <div class="up-small">
+                        <div class="chart-h">
+                            <h1 class="a1">134</h1>
+                            <h1 class="a2">DELIVERIES</h1>
+                            <h1 class="a3">08/24/2019</h1>
+                        </div>
+                        <div class="charts">
+                            <canvas id="myChart-2" class="canvas-c" width="600" height="240%"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
+
 
             <div class="row under-line">
                 <div class="col-sm-8 left-div">
@@ -364,13 +73,12 @@
                     <div class="left-body">
                         <table>
                             <tr>
-                                <th class="tb-h"><img src="{{ buildStaticUrl('/img/th.png') }}"> &nbsp; ID</th>
+                                <th class="tb-h">二维码</th>
                                 <th class="tb-h">价格</th>
                                 <th class="tb-h">备注信息</th>
                                 <th class="tb-h">日期</th>
                                 <th class="tb-h">状态</th>
                             </tr>
-                            <div id="invoiceTable">
                                 {% if list %}
                                 {% for item in list %}
 
@@ -387,12 +95,12 @@
                                     <td>
 
                                         {% if item.status==0 %}
-                                        <button class="btn btn-success">派送</button>
+                                        <button class="btn btn-success" data="{{ item.id  }}">派送</button>
                                         {% else %}
                                         {% if item.status==1 %}
-                                        <button class="btn btn-outline-warning" disabled>派送中</button>
+                                        <button class="btn btn-outline-warning" data="{{ item.id  }}" disabled>派送中</button>
                                         {% else %}
-                                        <button class="btn btn btn-outline-success" disabled>已签收</button>
+                                        <button class="btn btn btn-outline-success" data="{{ item.id  }}" disabled>已签收</button>
                                         {% endif %}
                                         {% endif %}
                                     </td>
@@ -403,7 +111,6 @@
                                     <td colspan="6">暂无数据~~</td>
                                 </tr>
                                 {% endif %}
-                            </div>
                         </table>
                         {% include 'common/pagenation.html' %}
                     </div>
@@ -442,5 +149,60 @@
     </div>
 </div>
 <iframe name="upload_file" style="display:none"></iframe>
+ <script>
+          var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+            // The data for our dataset
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July',  'August', 'September', 'October'],
+                datasets: [{
+                    label: 'My First dataset',
+                    backgroundColor: '#F0EAFF',
+                    borderColor: '#7033FF',
+                    data: [8, 7, 10, 5, 9, 5, 15, 10, 13,12],
+                    fill: true,
+                }]
+            },
 
+            // Configuration options go here
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            display: false
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            display: false
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                },
+                legend: {
+                    display: false
+                },
+                animation: {
+                    duration: 2500
+                },
+                layout: {
+                    padding: {
+                    left: -9.3,
+                    right: 0,
+                    top: 0,
+                    bottom: -9
+                    }
+                }
+            }
+        });
+    </script>
 {% endblock %}

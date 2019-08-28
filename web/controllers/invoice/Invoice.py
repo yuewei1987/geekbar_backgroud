@@ -100,3 +100,39 @@ def set():
     db.session.add(model_invoices)
     ret = db.session.commit()
     return jsonify(resp)
+
+
+@route_invoices.route("/ops",methods=["POST"])
+def ops():
+    resp = { 'code':200,'msg':'操作成功~~','data':{} }
+    req = request.values
+
+    id = req['id'] if 'id' in req else 0
+    act = req['act'] if 'act' in req else ''
+
+    if not id :
+        resp['code'] = -1
+        resp['msg'] = "请选择要操作的发货单"
+        return jsonify(resp)
+
+    if act not in [ 'deliver','remove' , 'recover']:
+        resp['code'] = -1
+        resp['msg'] = "操作有误，请重试~~"
+        return jsonify(resp)
+
+    invoices_info = Invoice.query.filter_by( invoice_id = id ).first()
+    if not invoices_info:
+        resp['code'] = -1
+        resp['msg'] = "发货单不存在"
+        return jsonify(resp)
+
+    if act == "remove":
+        invoices_info.del_flag = 1
+    elif act == "recover":
+        invoices_info.del_flag = 0
+    elif act == "deliver":
+        invoices_info.status = 1
+
+    db.session.add(invoices_info)
+    db.session.commit()
+    return jsonify( resp )
