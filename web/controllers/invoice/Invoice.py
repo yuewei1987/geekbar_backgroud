@@ -15,7 +15,7 @@ from web.controllers.api import route_api
 
 route_invoices = Blueprint( 'invoices_page',__name__ )
 
-@route_invoices.route("/invoice", methods=["GET", "POST"])
+@route_invoices.route("/index", methods=["GET", "POST"])
 def get_order():
     INVOICE_PAGE_SIZE=8
     data = []

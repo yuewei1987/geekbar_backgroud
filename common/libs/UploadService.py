@@ -15,6 +15,7 @@ class UploadService():
         # 获取文件名 【secure_filename() 获取一个安全的文件名】
         filename = secure_filename(file.filename)
         # 获取文件的后缀
+        print(filename)
         ext = filename.rsplit(".", 1)[1]
         # 判断 这个 后缀 是否在 规定的后缀里面
         if ext not in config_upload['ext']:

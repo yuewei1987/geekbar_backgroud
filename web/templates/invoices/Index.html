@@ -1,19 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dashboard</title>
-    <link href="https://fonts.googleapis.com/css?family=Lexend+Deca|Tajawal:400,500,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!--     <link href="{{ buildStaticUrl('/bootstrap/bootstrap.min.css') }}" rel="stylesheet">-->
-    <!--    <link href="{{ buildStaticUrl('/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">-->
-    <script src="{{ buildStaticUrl('/plugins/jquery-2.1.1.js') }}"></script>
-    <script src="{{ buildStaticUrl('/bootstrap/bootstrap.min.js') }}"></script>
-    <script src="{{ buildStaticUrl('/plugins/layer/layer.js') }}"></script>
-    <script src="{{ buildStaticUrl('/js/common.js') }}"></script>
+{% extends "common/layout_main.html" %}
+{% block content %}
+
     {% block js %}
     <script src="{{ buildStaticUrl('/js/invoices/index.js') }}"></script>
     {% endblock %}
@@ -22,7 +9,10 @@
             background: #FFFFFF;
             border-radius: 2px;
         }
-
+        .upload_pic_wrap {
+          position: relative;
+          float: left;
+        }
         /* PAGINATIN */
         .pagination > .active > a,
         .pagination > .active > span,
@@ -238,7 +228,6 @@
         .inv {
             margin-bottom: 30px;
         }
-
         .invoice-form {
             height: 200px;
             background: #FFFFFF;
@@ -331,16 +320,16 @@
     </style>
 </head>
 <body>
-<div class="nav-ul">
-    <li class="ph1"><a href="#"><img src="{{ buildStaticUrl('/img/logo.png') }}" alt=""></a></li>
-    <li class="ph2"><a href="#"><img src="{{ buildStaticUrl('/img/nav-photo.png') }}" alt=""></a></li>
-    <li class="ph3"><a href="#"><img src="{{ buildStaticUrl('/img/nav-ton.png') }}" alt=""></a></li>
-</div>
+<!--<div class="nav-ul">-->
+<!--    <li class="ph1"><a href="#"><img src="{{ buildStaticUrl('/img/logo.png') }}" alt=""></a></li>-->
+<!--    <li class="ph2"><a href="#"><img src="{{ buildStaticUrl('/img/nav-photo.png') }}" alt=""></a></li>-->
+<!--    <li class="ph3"><a href="#"><img src="{{ buildStaticUrl('/img/nav-ton.png') }}" alt=""></a></li>-->
+<!--</div>-->
 <div class="m-width-m">
     <div class="m-width">
         <div class="cointainer">
             <div class="over">
-                <H2 class="dash-o ">Dashboard Overview</H2>
+                <H2 class="dash-o ">收入仪表盘</H2>
             </div>
             <div class="row line-chart">
                 <div class="col-12 col-sm-8 line-chart1">
@@ -356,7 +345,7 @@
                     <form class="wrap_search">
                         <div class="head">
                             <div class="left-head-1">
-                                <h1 class="dash-o">Support Requests</h1>
+                                <h1 class="dash-o">发货单列表</h1>
                             </div>
 
                             <div class="left-head-2">
@@ -418,11 +407,20 @@
                     <div class="down-small">
                         <div class="right-invoice">
                             <div class="inv">
-                                <H2 class="dash-o">Add Invoice</H2>
+                                <H2 class="dash-o">上传发货单 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button class="btn btn-success">上传(Add)</button>
+                                </H2>
+
                             </div>
                             <div class="invoice-form">
-                                <div class="in-pic">
-                                    <img src="{{ buildStaticUrl('/img/in.png') }}" alt="">
+                                  <div class="in-pic">
+                                     <form class="upload_pic_wrap" target="upload_file" enctype="multipart/form-data" method="POST" action="{{ buildUrl('/upload/pic') }}">
+                                         <input type="file"  id="tf"  style="display: none" name="icon" accept="image/png, image/jpeg, image/jpg,image/gif">
+                                         <div id="upd_img">
+                                             <img src="{{ buildStaticUrl('/img/in.png') }}" onclick="tf.click();" />
+                                         </div>
+                                    </form>
                                 </div>
                             </div>
                             <div class="amount">
@@ -438,5 +436,6 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+<iframe name="upload_file" style="display:none"></iframe>
+
+{% endblock %}

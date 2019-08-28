@@ -104,7 +104,6 @@ def set():
 
     db.session.add(model_goods)
     ret = db.session.commit()
-
     return jsonify(resp)
 
 

@@ -48,18 +48,18 @@
                 <td>{{ item.status_desc }}</td>
                 <td>{{ item.group_name }}</td>
                 <td>
-                    <a href="{{ buildUrl('/member/info') }}?id={{  item.id }}">
-                        <i class="fa fa-eye fa-lg"></i>
-                    </a>
+<!--                    <a href="{{ buildUrl('/member/info') }}?id={{  item.id }}">-->
+<!--                        <i class="fa fa-eye fa-lg"></i>-->
+<!--                    </a>-->
 
                     {%  if item.status == 1 %}
                     <a class="m-l" href="{{ buildUrl('/member/set') }}?id={{  item.id }}">
                         <i class="fa fa-edit fa-lg"></i>
                     </a>
 
-                    <a class="m-l remove" href="javascript:void(0);" data="{{  item.id }}">
-                        <i class="fa fa-trash fa-lg"></i>
-                    </a>
+<!--                    <a class="m-l remove" href="javascript:void(0);" data="{{  item.id }}">-->
+<!--                        <i class="fa fa-trash fa-lg"></i>-->
+<!--                    </a>-->
                     {%  else %}
                     <a class="m-l recover" href="javascript:void(0);" data="{{  item.id }}">
                         <i class="fa fa-rotate-left fa-lg"></i>

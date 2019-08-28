@@ -48,4 +48,50 @@ def index():
     return ops_render( "member/index.html",resp_data )
 
 
+@route_member.route("/set", methods=["GET", "POST"])
+def set():
+    default_pwd = "******"
+    if request.method == "GET":
+        resp_data = {}
+        req = request.args
+        id = int(req.get("id", 0))
+        info = None
+        if id:
+            info = Member.query.filter_by(id=id).first()
+        resp_data['info'] = info
+        return ops_render("member/set.html", resp_data)
+
+    resp = {'code': 200, 'msg': '操作成功~~', 'data': {}}
+    req = request.values
+
+    id = req['id'] if 'id' in req else 0
+    nickname = req['nickname'] if 'nickname' in req else ''
+    group_name = req['group_name'] if 'group_name' in req else ''
+
+    if group_name is None or len(group_name) < 1:
+        resp['code'] = -1
+        resp['msg'] = "请输入符合规范的组名~~"
+        return jsonify(resp)
+
+
+    # has_in = Member.query.filter(Member.group_name == login_name, User.uid != id).first()
+    # if has_in:
+    #     resp['code'] = -1
+    #     resp['msg'] = "该登录名已存在，请换一个试试~~"
+    #     return jsonify(resp)
+
+    member_info = Member.query.filter_by(id=id).first()
+    if member_info:
+        model_member = member_info;
+    else:
+        resp['code'] = -1
+        resp['msg'] = "当前账号信息不存在,请确认后修改~~"
+        return jsonify(resp)
+    model_member.group_name = group_name;
+    model_member.nickname = nickname;
+    model_member.updated_time = getCurrentDate()
+    db.session.add(model_member)
+    ret = db.session.commit()
+    return jsonify(resp)
+
 

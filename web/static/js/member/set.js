@@ -4,6 +4,8 @@ var member_set_ops = {
         this.eventBind();
     },
     eventBind:function(){
+
+
         $(".wrap_member_set .save").click( function(){
             var btn_target = $(this);
             if( btn_target.hasClass( "disabled" ) ){
@@ -18,11 +20,18 @@ var member_set_ops = {
                 common_ops.tip( "请输入符合规范的姓名",nickname_target );
                 return;
             }
+            var groupname_target = $(".wrap_member_set input[name=groupname]");
+            var groupname = groupname_target.val();
 
+            if( groupname.length < 1 ){
+                common_ops.tip( "请输入符合规范的组名",groupname_target );
+                return;
+            }
             btn_target.addClass("disabled");
 
             var data = {
                 nickname:nickname,
+                group_name:groupname,
                 id:$(".wrap_member_set input[name=id]").val()
             };
 

@@ -8,6 +8,10 @@
     <link href="{{ buildStaticUrl('/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ buildStaticUrl('/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ buildStaticUrl('/css/style.css') }}" rel="stylesheet">
+    <script src="{{ buildStaticUrl('/plugins/jquery-2.1.1.js') }}"></script>
+    <script src="{{ buildStaticUrl('/bootstrap/bootstrap.min.js') }}"></script>
+    <script src="{{ buildStaticUrl('/plugins/layer/layer.js') }}"></script>
+    <script src="{{ buildStaticUrl('/js/common.js') }}"></script>
     {%block css %}{% endblock %}
 <body>
 <div id="wrapper">
@@ -47,10 +51,10 @@
 <!--                    <a href="{{ buildUrl('/member/index') }}"><i class="fa fa-group fa-lg"></i> <span-->
 <!--                            class="nav-label">会员列表</span></a>-->
 <!--                </li>-->
-<!--                <li class="finance">-->
-<!--                    <a href="{{ buildUrl('/finance/index') }}"><i class="fa fa-rmb fa-lg"></i> <span-->
-<!--                            class="nav-label">财务管理</span></a>-->
-<!--                </li>-->
+                <li class="finance">
+                    <a href="{{ buildUrl('/invoices/index') }}"><i class="fa fa-rmb fa-lg"></i> <span
+                            class="nav-label">发货管理</span></a>
+                </li>
 <!--                <li class="stat">-->
 <!--                    <a href="{{ buildUrl('/stat/index') }}"><i class="fa fa-bar-chart fa-lg"></i> <span-->
 <!--                            class="nav-label">统计管理</span></a>-->
@@ -113,10 +117,7 @@
     <input name="domain" value="{{ config.APP.domain }}">
     <input name="prefix_url" value="{{ config.UPLOAD.prefix_url }}">
 </div>
-<script src="{{ buildStaticUrl('/plugins/jquery-2.1.1.js') }}"></script>
-<script src="{{ buildStaticUrl('/bootstrap/bootstrap.min.js') }}"></script>
-<script src="{{ buildStaticUrl('/plugins/layer/layer.js') }}"></script>
-<script src="{{ buildStaticUrl('/js/common.js') }}"></script>
+
 {%block js %}{% endblock %}
 </body>
 </html>

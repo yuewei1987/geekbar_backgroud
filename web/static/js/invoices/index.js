@@ -1,9 +1,29 @@
+var upload = {
+    error: function (msg) {
+        common_ops.alert(msg);
+    },
+    success: function (file_key) {
+        if (!file_key) {
+            return;
+        }
+        var html = '<img width="100%"  height="100%" src="' + common_ops.buildPicUrl(file_key) + '" onclick="tf.click();"/>';
+        $("#upd_img").html(html);
+
+    }
+};
 var invoice_index_ops = {
     init:function(){
         this.eventBind();
     },
     eventBind:function(){
         var that = this;
+        $(".upload_pic_wrap input[name=icon]").change(function () {
+             $(".upload_pic_wrap").submit();
+        });
+
+        $(".right-invoice button").click(function () {
+            that.ops( "add",$(this).attr("data") )
+        });
         $(".remove").click( function(){
             that.ops( "remove",$(this).attr("data") )
         });
@@ -20,7 +40,7 @@ var invoice_index_ops = {
         // });
     },search:function(val ){
       $.ajax({
-            url:common_ops.buildUrl("/invoices/invoice"),
+            url:common_ops.buildUrl("/invoices/index"),
             type:'GET',
             data:{
                 address:val
