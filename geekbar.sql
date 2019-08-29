@@ -101,6 +101,43 @@ INSERT INTO `goods` VALUES (14, '3012992421005', '20190803/8099a3526fc64c8e9495a
 COMMIT;
 
 -- ----------------------------
+-- Table structure for invoice
+-- ----------------------------
+DROP TABLE IF EXISTS `invoice`;
+CREATE TABLE `invoice` (
+  `invoice_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `address` varchar(100) DEFAULT NULL COMMENT '地址',
+  `phone` varchar(20) DEFAULT NULL COMMENT '电话',
+  `amount` decimal(12,2) NOT NULL COMMENT '金额',
+  `notes` varchar(200) DEFAULT NULL COMMENT '文件地址',
+  `status` tinyint(4) DEFAULT '0' COMMENT '订单状态( 0已创建Sent，1待发送Pending，2-已经扫码,完成Receivd)',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `group_name` varchar(255) DEFAULT NULL COMMENT '分组名',
+  `file_path` varchar(255) DEFAULT NULL COMMENT '文件路径',
+  `del_flag` tinyint(4) NOT NULL DEFAULT '0' COMMENT '1:删除 0:未删除',
+  `order_id` int(11) DEFAULT NULL COMMENT '订单号',
+  `mid` int(11) DEFAULT NULL COMMENT '用户id member',
+  `goods_id` int(11) DEFAULT NULL COMMENT '货物id',
+  PRIMARY KEY (`invoice_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8mb4 COMMENT='发票表';
+
+-- ----------------------------
+-- Table structure for invoice_evaluate
+-- ----------------------------
+DROP TABLE IF EXISTS `invoice_evaluate`;
+CREATE TABLE `invoice_evaluate` (
+  `evaluate_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `invoice_id` int(11) NOT NULL COMMENT '发票主键Id',
+  `evaluate_star_level` int(11) NOT NULL COMMENT '评价星级',
+  `pic_url` varchar(500) DEFAULT NULL COMMENT '图片地址',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `del_flag` tinyint(4) NOT NULL DEFAULT '0' COMMENT '1:删除 0:未删除',
+  PRIMARY KEY (`evaluate_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='评价表';' ||
+ '
+-- ----------------------------
 -- Table structure for images
 -- ----------------------------
 DROP TABLE IF EXISTS `images`;
@@ -132,10 +169,12 @@ CREATE TABLE `member` (
   `salt` varchar(32) NOT NULL DEFAULT '' COMMENT '随机salt',
   `reg_ip` varchar(100) NOT NULL DEFAULT '' COMMENT '注册ip',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态 1：有效 0：无效',
+  `group_name` varchar(255) DEFAULT NULL COMMENT '分组名',
   `updated_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后一次更新时间',
   `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COMMENT='会员表';
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COMMENT='会员表';
+
 
 -- ----------------------------
 -- Table structure for oauth_member_bind
@@ -179,21 +218,23 @@ CREATE TABLE `order` (
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `uid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户uid',
-  `nickname` varchar(100) NOT NULL DEFAULT '' COMMENT '用户名',
-  `mobile` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号码',
-  `email` varchar(100) NOT NULL DEFAULT '' COMMENT '邮箱地址',
-  `sex` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1：男 2：女 0：没填写',
-  `avatar` varchar(64) NOT NULL DEFAULT '' COMMENT '头像',
-  `login_name` varchar(20) NOT NULL DEFAULT '' COMMENT '登录用户名',
-  `login_pwd` varchar(32) NOT NULL DEFAULT '' COMMENT '登录密码',
-  `login_salt` varchar(32) NOT NULL DEFAULT '' COMMENT '登录密码的随机加密秘钥',
-  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1：有效 0：无效',
-  `updated_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后一次更新时间',
-  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
+  `uid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT ''用户uid'',
+  `nickname` varchar(100) NOT NULL DEFAULT '''' COMMENT ''用户名'',
+  `mobile` varchar(20) NOT NULL DEFAULT '''' COMMENT ''手机号码'',
+  `email` varchar(100) NOT NULL DEFAULT '''' COMMENT ''邮箱地址'',
+  `sex` tinyint(1) NOT NULL DEFAULT ''0'' COMMENT ''1：男 2：女 0：没填写'',
+  `avatar` varchar(64) NOT NULL DEFAULT '''' COMMENT ''头像'',
+  `login_name` varchar(20) NOT NULL DEFAULT '''' COMMENT ''登录用户名'',
+  `login_pwd` varchar(32) NOT NULL DEFAULT '''' COMMENT ''登录密码'',
+  `login_salt` varchar(32) NOT NULL DEFAULT '''' COMMENT ''登录密码的随机加密秘钥'',
+  `role` varchar(255) DEFAULT NULL COMMENT ''角色'',
+  `status` tinyint(1) NOT NULL DEFAULT ''1'' COMMENT ''1：有效 0：无效'',
+  `type` tinyint(1) NOT NULL DEFAULT ''0'' COMMENT ''0:货物管理 1:发票管理'',
+  `updated_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT ''最后一次更新时间'',
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT ''插入时间'',
   PRIMARY KEY (`uid`),
   UNIQUE KEY `login_name` (`login_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='用户表（管理员）';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT=''用户表（管理员）'';
 
 -- ----------------------------
 -- Records of user
