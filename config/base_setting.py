@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 APP = {
     # 域名
-    'domain': 'https://www.umame.cn/'
+    'domain': 'https://www.umame.cn'
 
 }
 
