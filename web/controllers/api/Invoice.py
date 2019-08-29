@@ -34,7 +34,9 @@ def receive_invoice():
         resp['msg'] = "ID不正确不能执行~~"
         return jsonify(resp)
     data = []
-    invoices = Invoice.query.filter(Invoice.del_flag == 0 and Invoice.invoice_id == invoice_id).first()
+    print(invoice_id)
+    invoices = Invoice.query.filter(Invoice.del_flag == 0,Invoice.invoice_id == invoice_id).first()
+    print(invoices)
     if not invoices :
         resp['code'] = -1
         resp['msg'] = "操作错误~~"

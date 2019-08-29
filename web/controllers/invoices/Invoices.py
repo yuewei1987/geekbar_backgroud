@@ -13,13 +13,15 @@ from sqlalchemy import func
 
 from application import  db
 from common.libs.Helper import getInvoiceDetail, ops_render, iPagination, get_current_month_start_and_end
+from common.libs.QrcodeService import QrcodeService
+from common.libs.UrlManager import UrlManager
 from common.models.invoice.Invoice import Invoice
 
 route_invoices = Blueprint( 'invoices_page',__name__ )
 
 @route_invoices.route("/index", methods=["GET", "POST"])
 def get_order():
-    INVOICE_PAGE_SIZE=8
+    INVOICE_PAGE_SIZE=5
     data = []
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     req = request.values
@@ -95,11 +97,21 @@ def set():
         model_invoices = invoices_info
     else:
         model_invoices = Invoice()
+
     model_invoices.file_path = file_path
     model_invoices.amount = amount
     model_invoices.notes = notes
     db.session.add(model_invoices)
     ret = db.session.commit()
+    db.session.flush();
+    # UrlManager.buildImageUrl(file_key) PDF的地址
+    # qrcode 与实际上传文件同名只是在不同目录 /web/upload/qrcode
+    print(UrlManager.buildScanUrl("/api/receiveInvoice?invoice_id="+str(model_invoices.invoice_id)));
+    qret = QrcodeService.generateqrcode(UrlManager.buildScanUrl("/api/receiveInvoice?invoice_id="+str(model_invoices.invoice_id)), file_path)
+    if qret['code'] != 200:
+        resp['code'] = -1
+        resp['msg'] = "二维码生成失败，请重试~~"
+        return jsonify(resp)
     return jsonify(resp)
 
 
@@ -150,7 +162,7 @@ def revenue():
     # act = req['act'] if 'act' in req else ''
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     revenues = Invoice.query.with_entities(func.sum(Invoice.amount)) \
-        .filter(Invoice.del_flag == 0 and (Invoice.create_time <= today) ).all()
+        .filter(Invoice.del_flag == 0,Invoice.create_time <= today).all()
     if not revenues:
         resp['code'] = -1
         resp['msg'] = "操作有误，请重试~~"
@@ -160,7 +172,7 @@ def revenue():
             "today": datetime.datetime.now().strftime("%d/%m/%Y"),
         }
     resp['revenues'] = item
-    deliveriescount = Invoice.query.filter(Invoice.del_flag == 0 and (Invoice.create_time <= today)).count()
+    deliveriescount = Invoice.query.filter(Invoice.del_flag == 0,Invoice.create_time <= today).count()
     deliveritem = {
         "deliveriescount": deliveriescount,
         "today": datetime.datetime.now().strftime("%d/%m/%Y"),
@@ -168,7 +180,7 @@ def revenue():
     resp['deliveries'] = deliveritem
     datefor = get_current_month_start_and_end(today);
     invoices = Invoice.query.with_entities(func.count(Invoice.invoice_id), func.sum(Invoice.amount) ,func.date(Invoice.create_time))\
-        .filter(Invoice.del_flag == 0 and (Invoice.create_time >= datefor[0]) and (Invoice.create_time <= datefor[1]))\
+        .filter(Invoice.del_flag == 0,Invoice.create_time >= datefor[0],Invoice.create_time <= datefor[1])\
         .group_by(func.date(Invoice.create_time)).all()
     for invoice in invoices:
         createtimedata.append(invoice[2].strftime("%Y-%m-%d"))

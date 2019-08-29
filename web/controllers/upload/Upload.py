@@ -57,8 +57,8 @@ def uploadPic():
 		return "<script type='text/javascript'>{0}.error('{1}')</script>".format(callback_target, "上传失败：" + ret['msg'])
 	return "<script type='text/javascript'>{0}.success('{1}')</script>".format(callback_target,ret['data']['file_key'] )
 
-@route_upload.route("/pdf",methods = [ "GET","POST" ])
-def uploadPdf():
+@route_upload.route("/invoice",methods = [ "GET","POST" ])
+def uploadInvoice():
 	file_target = request.files
 	upfile = file_target['pdf'] if 'pdf' in file_target else None
 
@@ -68,17 +68,7 @@ def uploadPdf():
 	ret = UploadService.uploadByFile(upfile)
 	if ret['code'] != 200:
 		return "<script type='text/javascript'>{0}.error('{1}')</script>".format( callback_target, "上传失败：" + ret['msg'])
-	else :
-		#生成的二维码默认png格式
-		ext="png";
-		file_uuid_name = ret['data']['file_uuid_name']
-		file_key = ret['data']['file_key']
-		file_name = file_uuid_name + "." + ext
-		#UrlManager.buildImageUrl(file_key) PDF的地址
-		qret = QrcodeService.generateqrcode(UrlManager.buildImageUrl(file_key),file_name)
-		if ret['code'] != 200:
-			return "<script type='text/javascript'>{0}.error('{1}')</script>".format(callback_target,"二维码生成失败：" + ret['msg'])
-	return "<script type='text/javascript'>{0}.success('{1}')</script>".format(callback_target,datetime.datetime.now().strftime("%Y%m%d")+ "/" +file_name )
+	return "<script type='text/javascript'>{0}.success('{1}')</script>".format(callback_target,ret['data']['file_key'] )
 
 def uploadImage():
 	resp = { 'state':'SUCCESS','url':'','title':'','original':'' }

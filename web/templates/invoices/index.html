@@ -87,7 +87,8 @@
                     <div class="left-body">
                         <table>
                             <tr>
-                                <th class="tb-h">二维码</th>
+                                <th class="tb-h">发货信息</th>
+                                <th class="tb-h">二维码信息</th>
                                 <th class="tb-h">价格</th>
                                 <th class="tb-h">备注信息</th>
                                 <th class="tb-h">日期</th>
@@ -99,9 +100,13 @@
                                 <tr {% if loop.index %2==0 %} class="table-tr" {% endif %}>
                                     <td>
                                         {% if item.file_path %}
-                                        <img width="30px" height="30px" src="{{buildImageUrl(item.file_path)}}">
+                                        <img width="50px" height="50px" src="{{buildImageUrl(item.file_path)}}">
                                         {% endif %}
-                                        &nbsp;{{ item.id }}
+                                    </td>
+                                    <td>
+                                        {% if item.file_path %}
+                                        <img width="50px" height="50px" src="{{buildQrcodeUrl(item.file_path)}}">
+                                        {% endif %}
                                     </td>
                                     <td>{{ item.amount }}</td>
                                     <td>{{ item.notes }}</td>
@@ -141,8 +146,8 @@
                             </div>
                             <div class="invoice-form">
                                   <div class="in-pic">
-                                     <form class="upload_pic_wrap" target="upload_file" enctype="multipart/form-data" method="POST" action="{{ buildUrl('/upload/pdf') }}">
-                                         <input type="file"  id="tf"  style="display: none" name="pdf" accept="application/pdf">
+                                     <form class="upload_pic_wrap" target="upload_file" enctype="multipart/form-data" method="POST" action="{{ buildUrl('/upload/invoice') }}">
+                                         <input type="file"  id="tf"  style="display: none" name="pdf"  accept="image/png, image/jpeg, image/jpg,image/gif">
                                          <div id="upd_img">
                                              <img src="{{ buildStaticUrl('/img/in.png') }}" onclick="tf.click();" />
                                          </div>

@@ -31,3 +31,16 @@ class UrlManager(object):
         # url = 域名 + 图片前缀 + key
         url = app_config['domain'] + app.config['XLSX']['prefix_url'] + path
         return url
+    @staticmethod
+    def buildQrcodeUrl( path ):
+        app_config = app.config['APP']
+        # url = 域名 + 图片前缀 + key
+        url = app_config['domain'] + app.config['QRCODE']['prefix_url'] + path
+        return url
+
+    @staticmethod
+    def buildScanUrl(path):
+        app_config = app.config['APP']
+        # url = 域名 + 图片前缀 + key
+        url = app_config['domain'] + path
+        return url
