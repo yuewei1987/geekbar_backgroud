@@ -8,14 +8,12 @@
 import datetime
 from decimal import Decimal
 
-from flask import request, jsonify, g, Blueprint, redirect
+from flask import request, jsonify, Blueprint
 from sqlalchemy import func
 
-from application import app, db
-from common.libs.Helper import getInvoiceDetail, ops_render, iPagination, getCurrentDate, \
-    get_current_month_start_and_end
+from application import  db
+from common.libs.Helper import getInvoiceDetail, ops_render, iPagination, get_current_month_start_and_end
 from common.models.invoice.Invoice import Invoice
-from web.controllers.api import route_api, UrlManager
 
 route_invoices = Blueprint( 'invoices_page',__name__ )
 

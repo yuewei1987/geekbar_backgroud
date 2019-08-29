@@ -30,13 +30,12 @@ def get_list():
         resp_data['mix_kw'] = req['mix_kw']
 
     offset = (page - 1) * app.config['PAGE_SIZE']
-    goods_infos = query.filter_by().order_by(Goods.id.desc()).ofsurplus_numfset(offset).limit(app.config['PAGE_SIZE']).all()
+    goods_infos = query.filter_by().order_by(Goods.id.desc()).offset(offset).limit(app.config['PAGE_SIZE']).all()
     data = []
 
     for goods_info in goods_infos:
         item = getGoodsDetail(goods_info)
         max_id = Order.query.filter(Order.mid == g.member_info.id).filter(Order.goods_id == goods_info.id).with_entities(func.max(Order.id)).first()
-
         order = Order.query.filter(Order.id == max_id).first()
         if order:
 
