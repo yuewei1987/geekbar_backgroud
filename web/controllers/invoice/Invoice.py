@@ -29,7 +29,7 @@ def get_order():
 
     query = Invoice.query.filter(Invoice.del_flag == '0')
     if 'mix_kw' in req:
-        rule = Invoice.address.ilike("%{0}%".format(req['mix_kw']))
+        rule = Invoice.notes.ilike("%{0}%".format(req['mix_kw']))
         query = query.filter(rule)
         resp['mix_kw'] = req['mix_kw']
 

@@ -2,6 +2,16 @@
             background: #FFFFFF;
             border-radius: 2px;
         }
+.btn-outline-success {
+    background-color: #28a745;
+    color: #FFFFFF;
+    border-color: #28a745;
+}
+ .btn-outline-warning {
+    background-color: #ffc107;
+    color: #FFFFFF;
+    border-color: #ffc107;
+}
         .upload_pic_wrap {
           position: relative;
           float: left;
