@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import calendar
+
 from flask import g,render_template
 import datetime
 from application import app, db
@@ -238,3 +240,17 @@ def getXlsx(datas):
     writer.save()
 
     return file_dir+'/'+file_name
+
+def get_current_month_start_and_end(date):
+    """
+    年份 date(2017-09-08格式)
+    :param date:
+    :return:本月第一天日期和本月最后一天日期
+    """
+    if date.count('-') != 2:
+        raise ValueError('- is error')
+    year, month = str(date).split('-')[0], str(date).split('-')[1]
+    end = calendar.monthrange(int(year), int(month))[1]
+    start_date = '%s-%s-01' % (year, month)
+    end_date = '%s-%s-%s' % (year, month, end)
+    return start_date, end_date

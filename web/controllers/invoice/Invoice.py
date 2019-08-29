@@ -5,12 +5,15 @@
 @auther = yuewei
 @create_time = 2019-08-26 15:47
 """
+import datetime
 from decimal import Decimal
 
 from flask import request, jsonify, g, Blueprint, redirect
+from sqlalchemy import func
 
 from application import app, db
-from common.libs.Helper import getInvoiceDetail, ops_render, iPagination, getCurrentDate
+from common.libs.Helper import getInvoiceDetail, ops_render, iPagination, getCurrentDate, \
+    get_current_month_start_and_end
 from common.models.invoice.Invoice import Invoice
 from web.controllers.api import route_api, UrlManager
 
@@ -136,3 +139,45 @@ def ops():
     db.session.add(invoices_info)
     db.session.commit()
     return jsonify( resp )
+
+
+@route_invoices.route("/chart",methods=["GET"])
+def revenue():
+    resp = { 'code':200,'msg':'操作成功~~','data':{} }
+    data = []
+    createtimedata = []
+    deliverdata = []
+    req = request.values
+    # id = req['id'] if 'id' in req else 0
+    # act = req['act'] if 'act' in req else ''
+    today = datetime.datetime.now().strftime("%Y-%m-%d")
+    revenues = Invoice.query.with_entities(func.sum(Invoice.amount)) \
+        .filter(Invoice.del_flag == 0 and (Invoice.create_time <= today) ).all()
+    if not revenues:
+        resp['code'] = -1
+        resp['msg'] = "操作有误，请重试~~"
+        return jsonify(resp)
+    item = {
+            "totalamount": float(revenues[0][0]),
+            "today": datetime.datetime.now().strftime("%d/%m/%Y"),
+        }
+    resp['revenues'] = item
+    deliveriescount = Invoice.query.filter(Invoice.del_flag == 0 and (Invoice.create_time <= today)).count()
+    deliveritem = {
+        "deliveriescount": deliveriescount,
+        "today": datetime.datetime.now().strftime("%d/%m/%Y"),
+    }
+    resp['deliveries'] = deliveritem
+    datefor = get_current_month_start_and_end(today);
+    invoices = Invoice.query.with_entities(func.count(Invoice.invoice_id), func.sum(Invoice.amount) ,func.date(Invoice.create_time))\
+        .filter(Invoice.del_flag == 0 and (Invoice.create_time >= datefor[0]) and (Invoice.create_time <= datefor[1]))\
+        .group_by(func.date(Invoice.create_time)).all()
+    for invoice in invoices:
+        createtimedata.append(invoice[2].strftime("%Y-%m-%d"))
+        data.append(float(invoice[1]))
+        deliverdata.append(float(invoice[0]))
+    resp['data'] = data
+    resp['createtimedata'] = createtimedata
+    resp['deliveriedata'] = deliverdata
+    return jsonify( resp )
+

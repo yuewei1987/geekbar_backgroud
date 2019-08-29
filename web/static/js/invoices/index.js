@@ -15,6 +15,7 @@ var upload = {
 var invoice_index_ops = {
     init:function(){
         this.eventBind();
+        invoice_chart.initChart();
     },
     eventBind:function(){
         var that = this;
@@ -104,7 +105,6 @@ var invoice_index_ops = {
             },
             dataType:'json',
             success:function( res ){
-                console.dir(res);
                 var callback = null;
                 window.location.href = window.location.href;
                 common_ops.alert( res.msg,callback );
@@ -138,7 +138,104 @@ var invoice_index_ops = {
         common_ops.confirm( "确定操作？",callback );
     }
 };
+var invoice_chart={
+    initChart:function () {
 
+        var labels =[];
+        var datasets =[];
+        var deliverdatasets =[];
+        $.ajax({
+                url:common_ops.buildUrl("/invoices/chart"),
+                type:'GET',
+                dataType:'json',
+                success:function( res ){
+                    if( res.code == 200 ){
+                        labels = res.createtimedata;
+                        datasets = res.data;
+                        deliverdatasets = res.deliveriedata
+                        var html ="<h1 class=\"a1\">￥"+ res.revenues.totalamount+"</h1>\n" +
+                            "<h1 class=\"a2\">收入</h1>\n" +
+                            "<h1 class=\"a3\">"+ res.revenues.today+"</h1>"
+                        $("#revenuechart").html(html);
+                         var  data={
+                            labels: labels,
+                            datasets: [{
+                                label: '金额',
+                                backgroundColor: '#F0EAFF',
+                                borderColor: '#7033FF',
+                                data: datasets,
+                                fill: true,
+                            }]
+                        }
+                        invoice_chart.initDiffChart('myChart',data);
+                         var html2 ="<h1 class=\"a1\">"+res.deliveries.deliveriescount+"</h1>\n" +
+                             "<h1 class=\"a2\">发件数</h1>\n" +
+                             "<h1 class=\"a3\">"+res.deliveries.today+"</h1>"
+                        $("#deliverchart").html(html2);
+                        var  data2={
+                            labels: labels,
+                            datasets: [{
+                                label: '发货件数',
+                                backgroundColor: '#E5F6EE',
+                                 borderColor: '#00AA5A',
+                                data: deliverdatasets,
+                                fill: true,
+                            }]
+                        }
+                        invoice_chart.initDiffChart('myChart-2',data2);
+                    }
+                }
+            });
+    },
+    initDiffChart:function (elementId,data) {
+
+         var ctx = document.getElementById(elementId).getContext('2d');
+          var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+            // The data for our dataset
+            data:data,
+
+            // Configuration options go here
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            display: false
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            display: false
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                },
+                legend: {
+                    display: false
+                },
+                animation: {
+                    duration: 2500
+                },
+                layout: {
+                    padding: {
+                    left: -9.3,
+                    right: 0,
+                    top: 0,
+                    bottom: -9
+                    }
+                }
+            }
+        });
+    }
+}
 $(document).ready( function(){
     invoice_index_ops.init();
 });

@@ -67,7 +67,7 @@ def uploadPdf():
 		return "<script type='text/javascript'>{0}.error('{1}')</script>".format( callback_target,"上传失败" )
 	ret = UploadService.uploadByFile(upfile)
 	if ret['code'] != 200:
-		return "<script type='text/javascript'>{0}.error('{1}')</script>".format(callback_target, "上传失败：" + ret['msg'])
+		return "<script type='text/javascript'>{0}.error('{1}')</script>".format( callback_target, "上传失败：" + ret['msg'])
 	else :
 		#生成的二维码默认png格式
 		ext="png";
