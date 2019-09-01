@@ -103,6 +103,7 @@ COMMIT;
 -- ----------------------------
 -- Table structure for invoice
 -- ----------------------------
+
 DROP TABLE IF EXISTS `invoice`;
 CREATE TABLE `invoice` (
   `invoice_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
@@ -129,14 +130,27 @@ DROP TABLE IF EXISTS `invoice_evaluate`;
 CREATE TABLE `invoice_evaluate` (
   `evaluate_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `invoice_id` int(11) NOT NULL COMMENT '发票主键Id',
-  `evaluate_star_level` int(11) NOT NULL COMMENT '评价星级',
-  `pic_url` varchar(500) DEFAULT NULL COMMENT '图片地址',
+  `evaluate_star_level1` int(11) NOT NULL DEFAULT '0' COMMENT '评价星级1',
+  `evaluate_star_level2` int(11) NOT NULL DEFAULT '0' COMMENT '评价星级2',
+  `evaluate_content` varchar(500) DEFAULT NULL COMMENT '评价内容',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` tinyint(4) NOT NULL DEFAULT '0' COMMENT '1:删除 0:未删除',
   PRIMARY KEY (`evaluate_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='评价表';' ||
- '
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COMMENT='评价表';
+DROP TABLE IF EXISTS `invoice_evaluate_img`;
+ CREATE TABLE `invoice_evaluate_img` (
+  `invoice_evaluate_img_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `invoice_id` int(11) NOT NULL COMMENT '发票主键Id',
+  `evaluate_id` int(11) NOT NULL COMMENT '评价主键Id',
+  `file_key` varchar(60) NOT NULL DEFAULT '' COMMENT '文件名',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `del_flag` tinyint(4) NOT NULL DEFAULT '0' COMMENT '1:删除 0:未删除',
+  PRIMARY KEY (`invoice_evaluate_img_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=419 DEFAULT CHARSET=utf8mb4 COMMENT='评价图片表';
+
+
 -- ----------------------------
 -- Table structure for images
 -- ----------------------------
