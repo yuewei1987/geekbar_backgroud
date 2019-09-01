@@ -24,7 +24,10 @@ def get_invoice():
     req = request.values
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     page = int(req['p']) if ('p' in req and req['p']) else 1
-    query = Invoice.query.filter(Invoice.del_flag == '0',or_(Invoice.mid == g.member_info.id,Invoice.group_name == g.member_info.group_name))
+    if g.member_info.group_name:
+        query = Invoice.query.filter(Invoice.del_flag == '0',or_(Invoice.mid == g.member_info.id,Invoice.group_name == g.member_info.group_name))
+    else:
+        query = Invoice.query.filter(Invoice.del_flag == '0', Invoice.mid == g.member_info.id)
     if 'keyword' in req:
         if req['keyword']:
             rule = Invoice.notes.ilike("%{0}%".format(req['keyword']))
