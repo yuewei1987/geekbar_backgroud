@@ -15,7 +15,7 @@ from web.controllers.api.List import *
 from web.controllers.api.Goods import *
 # add by yuewei 20190826
 from web.controllers.api.Invoice import *
-
+from web.controllers.api.Upload import *
 @route_api.route("/")
 def index():
     return "Mina Api V1.0~~"

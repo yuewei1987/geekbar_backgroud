@@ -164,15 +164,35 @@ def getInvoiceDetail(invoice):
         "notes": invoice.notes,
         "del_flag": invoice.del_flag,
         "amount": float(invoice.amount),
-        "create_time": invoice.create_time,
+        "create_time": invoice.create_time.strftime("%d/%m/%Y"),
         "update_time": invoice.update_time,
         "status": invoice.status,
-        "file_path": invoice.file_path,
+        "file_path": UrlManager.buildImageUrl(invoice.file_path),
         "group_name": invoice.group_name
     }
 
     return data
+'''
+拼接数据库模型的一条信息
+'''
+def getInvoiceDetailForWeb(invoice):
+    if not invoice:
+        return {}
+    data = {
+        "id": invoice.invoice_id,
+        "address": invoice.address,
+        "phone":invoice.phone,
+        "notes": invoice.notes,
+        "del_flag": invoice.del_flag,
+        "amount": float(invoice.amount),
+        "create_time": invoice.create_time.strftime("%d/%m/%Y"),
+        "update_time": invoice.update_time,
+        "status": invoice.status,
+        "file_path":  invoice.file_path,
+        "group_name": invoice.group_name
+    }
 
+    return data
 
 import pandas as pd
 import pandas.io.formats.excel

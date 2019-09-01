@@ -12,7 +12,7 @@ from flask import request, jsonify, Blueprint
 from sqlalchemy import func
 
 from application import  db
-from common.libs.Helper import getInvoiceDetail, ops_render, iPagination, get_current_month_start_and_end
+from common.libs.Helper import getInvoiceDetailForWeb, ops_render, iPagination, get_current_month_start_and_end
 from common.libs.QrcodeService import QrcodeService
 from common.libs.UrlManager import UrlManager
 from common.models.invoice.Invoice import Invoice
@@ -45,7 +45,7 @@ def get_order():
     offset = (page - 1) * INVOICE_PAGE_SIZE
     list = query.filter_by().order_by(Invoice.invoice_id.desc()).offset(offset).limit(INVOICE_PAGE_SIZE).all()
     for invoice in list:
-        item = getInvoiceDetail(invoice)
+        item = getInvoiceDetailForWeb(invoice)
         data.append(item)
     resp['list'] = data
     resp['pages'] = pages
@@ -161,24 +161,28 @@ def revenue():
     # id = req['id'] if 'id' in req else 0
     # act = req['act'] if 'act' in req else ''
     today = datetime.datetime.now().strftime("%Y-%m-%d")
+    datefor = get_current_month_start_and_end(today);
     revenues = Invoice.query.with_entities(func.sum(Invoice.amount)) \
-        .filter(Invoice.del_flag == 0,Invoice.create_time <= today).all()
+        .filter(Invoice.del_flag == 0,Invoice.create_time>=datefor[0]).all()
     if not revenues:
         resp['code'] = -1
         resp['msg'] = "操作有误，请重试~~"
         return jsonify(resp)
+    totalamount =0.0;
+    if revenues[0][0]:
+        totalamount = revenues[0][0]
     item = {
-            "totalamount": float(revenues[0][0]),
+            "totalamount": float(totalamount),
             "today": datetime.datetime.now().strftime("%d/%m/%Y"),
         }
     resp['revenues'] = item
-    deliveriescount = Invoice.query.filter(Invoice.del_flag == 0,Invoice.create_time <= today).count()
+    deliveriescount = Invoice.query.filter(Invoice.del_flag == 0,Invoice.create_time>=datefor[0]).count()
     deliveritem = {
         "deliveriescount": deliveriescount,
         "today": datetime.datetime.now().strftime("%d/%m/%Y"),
     }
     resp['deliveries'] = deliveritem
-    datefor = get_current_month_start_and_end(today);
+
     invoices = Invoice.query.with_entities(func.count(Invoice.invoice_id), func.sum(Invoice.amount) ,func.date(Invoice.create_time))\
         .filter(Invoice.del_flag == 0,Invoice.create_time >= datefor[0],Invoice.create_time <= datefor[1])\
         .group_by(func.date(Invoice.create_time)).all()
