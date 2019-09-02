@@ -43,7 +43,21 @@ def get_invoice():
     # 总页数
     resp['all_page'] = math.ceil(query.filter_by().count() / int(app.config['PAGE_SIZE']))
     return jsonify( resp )
-
+@route_api.route("/getInvoiceById", methods=["GET", "POST"])
+def get_invoice_by_id():
+    data = []
+    req = request.values
+    resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
+    invoice_id = req['invoice_id'] if 'invoice_id' in req else ''
+    if invoice_id == '':
+        resp['msg'] = '参数不正确'
+        return jsonify(resp)
+    invoices = Invoice.query.filter(Invoice.invoice_id == invoice_id, Invoice.del_flag == 0).first()
+    if not invoices:
+        resp['msg'] = 'id参数错误'
+        return jsonify(resp)
+    resp['data'] = getInvoiceDetail(invoices)
+    return jsonify( resp )
 @route_api.route("/receiveInvoice", methods=["POST"])
 def receive_invoice():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
@@ -65,10 +79,10 @@ def receive_invoice():
         resp['code'] = -1
         resp['msg'] = "操作错误~~"
         return jsonify(resp)
-    # if invoices.status == 2:
-    #     resp['code'] = -1
-    #     resp['msg'] = "请不要重复操作~~"
-    #     return jsonify(resp)
+    if invoices.status == 2:
+        resp['code'] = -1
+        resp['msg'] = "当前货物已经被确认接受~~"
+        return jsonify(resp)
     if invoices:
         invoices.status = 2
         invoices.mid = g.member_info.id
