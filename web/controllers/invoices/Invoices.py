@@ -6,18 +6,23 @@
 @create_time = 2019-08-26 15:47
 """
 import datetime
+import json
 from decimal import Decimal
 
 from flask import request, jsonify, Blueprint
 from sqlalchemy import func
 
 from application import  db
-from common.libs.Helper import getInvoiceDetailForWeb, ops_render, iPagination, get_current_month_start_and_end
+from common.libs.Helper import getInvoiceDetailForWeb, ops_render, iPagination, get_current_month_start_and_end, \
+    getInvoiceEvaluateImg, getInvoiceEvaluate
 from common.libs.QrcodeService import QrcodeService
 from common.libs.UrlManager import UrlManager
 from common.models.invoice.Invoice import Invoice
+from common.models.invoice.InvoiceEvaluate import InvoiceEvaluate
+from common.models.invoice.InvoiceEvaluateImg import InvoiceEvaluateImg
 
 route_invoices = Blueprint( 'invoices_page',__name__ )
+
 
 @route_invoices.route("/index", methods=["GET", "POST"])
 def get_order():
@@ -28,6 +33,10 @@ def get_order():
     page = int(req['p']) if ('p' in req and req['p']) else 1
 
     query = Invoice.query.filter(Invoice.del_flag == '0')
+
+    if 'invoice_id' in req:
+        query = query.filter(Invoice.invoice_id == req['invoice_id'])
+
     if 'mix_kw' in req:
         rule = Invoice.notes.ilike("%{0}%".format(req['mix_kw']))
         query = query.filter(rule)
@@ -46,6 +55,14 @@ def get_order():
     list = query.filter_by().order_by(Invoice.invoice_id.desc()).offset(offset).limit(INVOICE_PAGE_SIZE).all()
     for invoice in list:
         item = getInvoiceDetailForWeb(invoice)
+        if invoice.status ==2:
+            InvoiceEvluateList = InvoiceEvaluate.query.filter(InvoiceEvaluate.del_flag==0,InvoiceEvaluate.invoice_id==invoice.invoice_id).first();
+            item['InvoiceEvluateList'] = InvoiceEvluateList;
+            if InvoiceEvluateList:
+                InvoiceEvluateImgList = InvoiceEvaluateImg.query.filter(InvoiceEvaluateImg.del_flag==0,
+                InvoiceEvaluateImg.evaluate_id==InvoiceEvluateList.evaluate_id,
+                InvoiceEvaluateImg.invoice_id==invoice.invoice_id).first();
+                item['InvoiceEvluateImgList']= InvoiceEvluateImgList;
         data.append(item)
     resp['list'] = data
     resp['pages'] = pages
@@ -195,3 +212,30 @@ def revenue():
     resp['deliveriedata'] = deliverdata
     return jsonify( resp )
 
+@route_invoices.route("/getInvoiceById", methods=["GET", "POST"])
+def get_invoice_by_id():
+    data = []
+    resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
+    req = request.values
+    query = Invoice.query.filter(Invoice.del_flag == '0')
+
+    if 'invoice_id' in req:
+        query = query.filter(Invoice.invoice_id == req['invoice_id'])
+    else:
+        resp['code'] = -1
+        resp['msg'] = "invoice_id有误，请重试~~"
+        return jsonify(resp)
+    invoice = query.filter_by().order_by(Invoice.invoice_id.desc()).first()
+    if invoice:
+        item = getInvoiceDetailForWeb(invoice)
+        if invoice.status ==2:
+            InvoiceEvluateList = InvoiceEvaluate.query.filter(InvoiceEvaluate.del_flag==0,InvoiceEvaluate.invoice_id==invoice.invoice_id).first();
+            resp['InvoiceEvluateList'] = getInvoiceEvaluate(InvoiceEvluateList)
+            if InvoiceEvluateList:
+                InvoiceEvluateImgList = InvoiceEvaluateImg.query.filter(InvoiceEvaluateImg.del_flag==0,
+                InvoiceEvaluateImg.evaluate_id==InvoiceEvluateList.evaluate_id,
+                InvoiceEvaluateImg.invoice_id==invoice.invoice_id).first();
+                resp['InvoiceEvluateImgList']= getInvoiceEvaluateImg(InvoiceEvluateImgList);
+
+        resp['list'] = item
+    return jsonify(resp)

@@ -193,7 +193,37 @@ def getInvoiceDetailForWeb(invoice):
     }
 
     return data
+'''
+拼接数据库模型的一条信息
+'''
+def getInvoiceEvaluate(invoiceEvaluate):
+    if not invoiceEvaluate:
+        return {}
+    data = {
+        "invoice_id": invoiceEvaluate.invoice_id,
+        "evaluate_id": invoiceEvaluate.evaluate_id,
+        "evaluate_star_level1":invoiceEvaluate.evaluate_star_level1,
+        "evaluate_star_level2": invoiceEvaluate.evaluate_star_level2,
+        "evaluate_content": invoiceEvaluate.evaluate_content,
+        "create_time": invoiceEvaluate.create_time,
+    }
 
+    return data
+'''
+拼接数据库模型的一条信息
+'''
+def getInvoiceEvaluateImg(invoiceEvaluateImg):
+    if not invoiceEvaluateImg:
+        return {}
+    data = {
+        "invoice_id": invoiceEvaluateImg.invoice_id,
+        "evaluate_id": invoiceEvaluateImg.evaluate_id,
+        "invoice_evaluate_img_id":invoiceEvaluateImg.invoice_evaluate_img_id,
+        "file_key": invoiceEvaluateImg.file_key,
+        "create_time": invoiceEvaluateImg.create_time
+    }
+
+    return data
 import pandas as pd
 import pandas.io.formats.excel
 pandas.io.formats.excel.header_style = None

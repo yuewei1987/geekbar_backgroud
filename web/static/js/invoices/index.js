@@ -79,6 +79,33 @@ var invoice_index_ops = {
             }
             e.stopPropagation();
         });
+        $(".left-body img").click(function (e) {
+            if(!e.isPropagationStopped()){//确定stopPropagation是否被调用过
+              $.ajax({
+                    url:common_ops.buildUrl("/invoices/getInvoiceById"),
+                    type:'GET',
+                    data:{
+                        invoice_id:$(this).attr("data")
+                    },
+                    dataType:'json',
+                    success:function( res ){
+                        var callback = null;
+                        if(res.code==200){
+                            $('#myModal').modal('show');
+                            var domain = $(".hidden_layout_wrap input[name=domain]").val();
+                            var invoicesrc =common_ops.buildPicUrl(res.list.file_path);
+                            var qrsrc = domain + "/static/qrcode/"  + res.list.file_path;
+                            var html ="<img width='500px' height='500px' src="+invoicesrc+">";
+                            html +="<img  width='500px' height='500px' src="+qrsrc+">";
+                             $('.modal-body').html(html);
+                        }
+
+                    }
+                });
+
+            }
+            e.stopPropagation();
+        });
         $(".left-body .btn-success").click( function(e){
           if(!e.isPropagationStopped()){//确定stopPropagation是否被调用过
             that.ops( "deliver",$(this).attr("data") )
